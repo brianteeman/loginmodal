@@ -27,7 +27,7 @@
 					type="text"
 					label="PLG_SYSTEM_LOGINMODAL_SELECTOR_LABEL"
 					description="PLG_SYSTEM_LOGINMODAL_SELECTOR_DESC"
-					default="a[href=&quot;#login&quot;], a[href=&quot;#logout&quot;]"
+					default="a[href*=&quot;login&quot;], a[href*=&quot;logout&quot;]"
 				/>
 			</fieldset>
 		</fields>

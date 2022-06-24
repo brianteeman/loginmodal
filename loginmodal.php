@@ -35,7 +35,9 @@ class plgSystemLoginModal extends CMSPlugin {
 		{
 			$selector	=	$this->params->get('selector', 'a[href*="login"], a[href*="logout"]');
 			$script	= <<<SCRIPT
+			document.addEventListener("DOMContentLoaded", function() {
 			var login = document.querySelectorAll('$selector').forEach((login, index) => {login.setAttribute('data-bs-toggle', 'modal');login.setAttribute('data-bs-target', '#loginModal');});
+			});
 			SCRIPT;
 			/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 			$wa = Factory::getDocument()->getWebAssetManager();
