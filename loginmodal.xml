@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" version="3.0" group="system" method="upgrade">
+	<name>PLG_SYSTEM_LOGINMODAL</name>
+	<author>Brian Teeman</author>
+	<creationDate>June 2022</creationDate>
+	<copyright>Copyright (c) 2022 Brian Teeman. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>brian@teeman.net</authorEmail>
+	<authorUrl>https://brian.teeman.net</authorUrl>
+	<version>1.0.0</version>
+	<description>PLG_SYSTEM_LOGINMODAL_XML_DESCRIPTION</description>
+	<updateservers>
+		<server type="extension" priority="1" name="LoginModal Update Site">https://raw.githubusercontent.com/brianteeman/loginmodal/master/manifest.xml</server>
+	</updateservers>
+	<files>
+		<filename plugin="loginmodal">loginmodal.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/plg_system_loginmodal.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_loginmodal.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="selector"
+					type="text"
+					label="PLG_SYSTEM_LOGINMODAL_SELECTOR_LABEL"
+					description="PLG_SYSTEM_LOGINMODAL_SELECTOR_DESC"
+					default="a[href=&quot;#login&quot;], a[href=&quot;#logout&quot;]"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
