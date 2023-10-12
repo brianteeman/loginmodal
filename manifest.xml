@@ -19,6 +19,6 @@
 		<maintainer>Brian Teeman</maintainer>
 		<maintainerurl>https://brian.teeman.net</maintainerurl>
 		<targetplatform name="joomla" version="4.[01234]|5.[01234]"/>
-		<sha256>5573D295CC9B15DEFBB6A27C6FF3FC73581A2F2AE0673F9997AFB4970E15A6A2</sha256>
+		<sha256>D1087045DD795E52D5F48358736B5F0CD55D392F803348F633026F6B7CEF084F</sha256>
 	</update>
 </updates>
