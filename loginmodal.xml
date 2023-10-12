@@ -7,10 +7,10 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>brian@teeman.net</authorEmail>
 	<authorUrl>https://brian.teeman.net</authorUrl>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<description>PLG_SYSTEM_LOGINMODAL_XML_DESCRIPTION</description>
 	<updateservers>
-		<server type="extension" priority="1" name="LoginModal Update Site">https://raw.githubusercontent.com/brianteeman/loginmodal/master/manifest.xml</server>
+		<server type="extension" priority="1" name="LoginModal Update Site">https://raw.githubusercontent.com/brianteeman/loginmodal/main/manifest.xml</server>
 	</updateservers>
 	<files>
 		<filename plugin="loginmodal">loginmodal.php</filename>
