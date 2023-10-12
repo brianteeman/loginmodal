@@ -1,5 +1,5 @@
 # loginmodal
-Joomla 4 Plugin to enable the display of the login module in a modal/popup
+Joomla Plugin to enable the display of the login module in a modal/popup
 
 Enable the plugin and publish the login module in a position called modal.
 
