@@ -11,10 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 class plgSystemLoginModal extends CMSPlugin {
@@ -31,7 +29,9 @@ class plgSystemLoginModal extends CMSPlugin {
 	 * setup the scripts.
 	 */
 	function onAfterDispatch() {
-		if ($this->app->isClient('site'))
+		$modules = ModuleHelper::getModules('modal');
+		
+		if ($this->app->isClient('site') && $modules)
 		{
 			$selector	=	$this->params->get('selector', 'a[href*="login"], a[href*="logout"]');
 			$script	= <<<SCRIPT
@@ -51,8 +51,8 @@ class plgSystemLoginModal extends CMSPlugin {
 	 */
 	function onAfterDisplay() {
 		$modules = ModuleHelper::getModules('modal');
-		foreach ($modules as $module) {
-			?>
+		
+		if ($modules) { ?>
 			<div
 				class="modal fade"
 				id="loginModal"
@@ -74,7 +74,9 @@ class plgSystemLoginModal extends CMSPlugin {
 							></button>
 						</div>
 						<div class="modal-body">
+							<?php foreach ($modules as $module) : ?>
 							<?php echo ModuleHelper::renderModule($module); ?>
+							<?php endforeach; ?>
 						</div>
 					</div>
 				</div>
@@ -83,6 +85,3 @@ class plgSystemLoginModal extends CMSPlugin {
 		}
 	}
 }
-
-
-
