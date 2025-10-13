@@ -18,6 +18,8 @@
 	<languages>
 		<language tag="en-GB">language/en-GB/plg_system_loginmodal.ini</language>
 		<language tag="en-GB">language/en-GB/plg_system_loginmodal.sys.ini</language>
+		<language tag="es-ES">language/es-ES/plg_system_loginmodal.ini</language>
+		<language tag="es-ES">language/es-ES/plg_system_loginmodal.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
