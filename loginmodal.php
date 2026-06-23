@@ -34,10 +34,25 @@ class plgSystemLoginModal extends CMSPlugin {
 		if ($this->app->isClient('site') && $modules)
 		{
 			$selector	=	$this->params->get('selector', 'a[href*="login"], a[href*="logout"]');
-			$script	= <<<SCRIPT
-			document.addEventListener("DOMContentLoaded", function() {
-			var login = document.querySelectorAll('$selector').forEach((login, index) => {login.setAttribute('data-bs-toggle', 'modal');login.setAttribute('data-bs-target', '#loginModal');});
-			});
+	
+	$script = <<<SCRIPT
+document.addEventListener('DOMContentLoaded', function () {
+    const modalElement = document.getElementById('logoModal');
+
+    if (!modalElement) {
+        return;
+    }
+
+    const modal = new bootstrap.Modal(modalElement);
+
+    document.querySelectorAll('$selector').forEach((logo) => {
+        logo.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+            modal.show();
+        });
+    });
+});
+
 			SCRIPT;
 			/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 			$wa = Factory::getDocument()->getWebAssetManager();
@@ -50,21 +65,21 @@ class plgSystemLoginModal extends CMSPlugin {
 	 * setup the module/modal
 	 */
 	function onAfterDisplay() {
-		$modules = ModuleHelper::getModules('modal');
+		$modules = ModuleHelper::getModules('modallogo');
 		
 		if ($modules) { ?>
 			<div
 				class="modal fade"
-				id="loginModal"
+				id="logo"
 				tabindex="-1"
-				aria-labelledby="loginModalLabel"
+				aria-labelledby="logoModalLabel"
 				aria-hidden="true"
 			>
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="loginModalLabel">
-								<?php echo ($this->app->getIdentity()->get('guest')) ? Text::_('JLOGIN') : Text::_('JLOGOUT'); ?>
+							<h5 class="modal-title" id="logoModalLabel">
+								<?php echo Text::_('LOGOMODAL'); ?>
 							</h5>
 							<button
 								type="button"
