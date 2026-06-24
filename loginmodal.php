@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.loginmodal
+ * @subpackage  System.secretmodal
  *
  * @copyright   (C) 2022 Brian Teeman. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -15,7 +15,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
-class plgSystemLoginModal extends CMSPlugin {
+class plgSystemSecretModal extends CMSPlugin {
 
 	/**
 	 * Application object.
@@ -29,15 +29,15 @@ class plgSystemLoginModal extends CMSPlugin {
 	 * setup the scripts.
 	 */
 	function onAfterDispatch() {
-		$modules = ModuleHelper::getModules('modal');
-		
+		$modules = ModuleHelper::getModules('secretmodal');
+	
 		if ($this->app->isClient('site') && $modules)
 		{
 			$selector	=	$this->params->get('selector', 'a[href*="login"], a[href*="logout"]');
 	
 	$script = <<<SCRIPT
 document.addEventListener('DOMContentLoaded', function () {
-    const modalElement = document.getElementById('logoModal');
+    const modalElement = document.getElementById('secretModal');
 
     if (!modalElement) {
         return;
@@ -65,21 +65,21 @@ document.addEventListener('DOMContentLoaded', function () {
 	 * setup the module/modal
 	 */
 	function onAfterDisplay() {
-		$modules = ModuleHelper::getModules('modallogo');
+		$modules = ModuleHelper::getModules('secretmodal');
 		
 		if ($modules) { ?>
 			<div
 				class="modal fade"
 				id="logo"
 				tabindex="-1"
-				aria-labelledby="logoModalLabel"
+				aria-labelledby="secretModalLabel"
 				aria-hidden="true"
 			>
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="logoModalLabel">
-								<?php echo Text::_('LOGOMODAL'); ?>
+							<h5 class="modal-title" id="secretModalLabel">
+								<?php echo Text::_('SECRETMODAL'); ?>
 							</h5>
 							<button
 								type="button"
