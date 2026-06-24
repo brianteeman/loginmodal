@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" version="3.0" group="system" method="upgrade">
-	<name>PLG_SYSTEM_LOGINMODAL</name>
+	<name>PLG_SYSTEM_SECRETMODAL</name>
 	<author>Brian Teeman</author>
 	<creationDate>June 2022</creationDate>
 	<copyright>Copyright (c) 2022 Brian Teeman. All rights reserved.</copyright>
@@ -8,18 +8,16 @@
 	<authorEmail>brian@teeman.net</authorEmail>
 	<authorUrl>https://brian.teeman.net</authorUrl>
 	<version>1.0.2</version>
-	<description>PLG_SYSTEM_LOGINMODAL_XML_DESCRIPTION</description>
+	<description>PLG_SYSTEM_SECRETMODAL_XML_DESCRIPTION</description>
 	<updateservers>
-		<server type="extension" priority="1" name="LoginModal Update Site">https://raw.githubusercontent.com/brianteeman/loginmodal/main/manifest.xml</server>
+		<server type="extension" priority="1" name="SecretModal Update Site">https://raw.githubusercontent.com/brianteeman/loginmodal/main/manifest.xml</server>
 	</updateservers>
 	<files>
-		<filename plugin="loginmodal">loginmodal.php</filename>
+		<filename plugin="secretmodal">secretmodal.php</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/plg_system_loginmodal.ini</language>
-		<language tag="en-GB">language/en-GB/plg_system_loginmodal.sys.ini</language>
-		<language tag="es-ES">language/es-ES/plg_system_loginmodal.ini</language>
-		<language tag="es-ES">language/es-ES/plg_system_loginmodal.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_secretmodal.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_secretmodal.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -27,8 +25,8 @@
 				<field
 					name="selector"
 					type="text"
-					label="PLG_SYSTEM_LOGINMODAL_SELECTOR_LABEL"
-					description="PLG_SYSTEM_LOGINMODAL_SELECTOR_DESC"
+					label="PLG_SYSTEM_SECRETMODAL_SELECTOR_LABEL"
+					description="PLG_SYSTEM_SECRETMODAL_SELECTOR_DESC"
 					default="a[href*=&quot;login&quot;], a[href*=&quot;logout&quot;]"
 				/>
 			</fieldset>
