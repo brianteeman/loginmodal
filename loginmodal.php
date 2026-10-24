@@ -50,9 +50,17 @@ class plgSystemLoginModal extends CMSPlugin {
 	 * setup the module/modal
 	 */
 	function onAfterDisplay() {
-		$modules = ModuleHelper::getModules('modal');
-		
-		if ($modules) { ?>
+    // Only inject the modal into HTML frontend pages.
+    if (
+        !$this->app->isClient('site')
+        || !Factory::getDocument() instanceof \Joomla\CMS\Document\HtmlDocument
+    ) {
+        return;
+    }
+
+    $modules = ModuleHelper::getModules('modal');
+
+    if ($modules) { ?>
 			<div
 				class="modal fade"
 				id="loginModal"
