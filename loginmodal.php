@@ -6,17 +6,19 @@
  * @copyright   (C) 2022 Brian Teeman. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 // no direct access
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
-class plgSystemLoginModal extends CMSPlugin {
-
+class plgSystemLoginModal extends CMSPlugin
+{
 	/**
 	 * Application object.
 	 *
@@ -26,62 +28,131 @@ class plgSystemLoginModal extends CMSPlugin {
 	protected $app;
 
 	/**
-	 * setup the scripts.
+	 * The rendered modal markup.
+	 *
+	 * @var    string
+	 * @since  1.0.3
 	 */
-	function onAfterDispatch() {
-		$modules = ModuleHelper::getModules('modal');
-		
-		if ($this->app->isClient('site') && $modules)
-		{
-			$selector	=	$this->params->get('selector', 'a[href*="login"], a[href*="logout"]');
-			$script	= <<<SCRIPT
-			document.addEventListener("DOMContentLoaded", function() {
-			var login = document.querySelectorAll('$selector').forEach((login, index) => {login.setAttribute('data-bs-toggle', 'modal');login.setAttribute('data-bs-target', '#loginModal');});
-			});
-			SCRIPT;
-			/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-			$wa = Factory::getDocument()->getWebAssetManager();
+	protected $modalHtml = '';
 
-			$wa->useScript('bootstrap.modal')
-				->addInlineScript($script);
-		}
-	}
 	/**
-	 * setup the module/modal
+	 * Set up the scripts.
+	 *
+	 * @return  void
 	 */
-	function onAfterDisplay() {
+	public function onAfterDispatch()
+	{
+		$document = Factory::getDocument();
+
+		if (!$this->app->isClient('site') || !($document instanceof HtmlDocument)) {
+			return;
+		}
+
 		$modules = ModuleHelper::getModules('modal');
-		
-		if ($modules) { ?>
-			<div
-				class="modal fade"
-				id="loginModal"
-				tabindex="-1"
-				aria-labelledby="loginModalLabel"
-				aria-hidden="true"
-			>
-				<div class="modal-dialog modal-dialog-centered">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="loginModalLabel">
-								<?php echo ($this->app->getIdentity()->get('guest')) ? Text::_('JLOGIN') : Text::_('JLOGOUT'); ?>
-							</h5>
-							<button
-								type="button"
-								class="btn-close"
-								data-bs-dismiss="modal"
-								aria-label="<?php echo Text::_('JCLOSE'); ?>"
-							></button>
-						</div>
-						<div class="modal-body">
-							<?php foreach ($modules as $module) : ?>
+
+		if (!$modules) {
+			return;
+		}
+
+		$selector = $this->params->get('selector', 'a[href*="login"], a[href*="logout"]');
+		$script   = <<<SCRIPT
+		document.addEventListener("DOMContentLoaded", function() {
+			document.querySelectorAll('$selector').forEach((login) => {
+				login.setAttribute('data-bs-toggle', 'modal');
+				login.setAttribute('data-bs-target', '#loginModal');
+			});
+		});
+		SCRIPT;
+
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = $document->getWebAssetManager();
+
+		$wa->useScript('bootstrap.modal')
+			->addInlineScript($script);
+	}
+
+	/**
+	 * Render the modal modules before the document is rendered.
+	 *
+	 * Keeping this out of onAfterDisplay() prevents the modal from being
+	 * inserted inside forms rendered by nested views, such as MFA methods.
+	 *
+	 * @return  void
+	 */
+	public function onBeforeRender()
+	{
+		$document = Factory::getDocument();
+
+		if (!$this->app->isClient('site') || !($document instanceof HtmlDocument)) {
+			return;
+		}
+
+		$modules = ModuleHelper::getModules('modal');
+
+		if (!$modules) {
+			return;
+		}
+
+		ob_start();
+		?>
+		<div
+			class="modal fade"
+			id="loginModal"
+			tabindex="-1"
+			aria-labelledby="loginModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="loginModalLabel">
+							<?php echo ($this->app->getIdentity()->get('guest')) ? Text::_('JLOGIN') : Text::_('JLOGOUT'); ?>
+						</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="<?php echo Text::_('JCLOSE'); ?>"
+						></button>
+					</div>
+					<div class="modal-body">
+						<?php foreach ($modules as $module) : ?>
 							<?php echo ModuleHelper::renderModule($module); ?>
-							<?php endforeach; ?>
-						</div>
+						<?php endforeach; ?>
 					</div>
 				</div>
 			</div>
-			<?php
+		</div>
+		<?php
+		$this->modalHtml = ob_get_clean();
+	}
+
+	/**
+	 * Append the modal to the completed HTML response.
+	 *
+	 * @return  void
+	 */
+	public function onAfterRender()
+	{
+		if (!$this->modalHtml || !$this->app->isClient('site')) {
+			return;
 		}
+
+		$document = Factory::getDocument();
+
+		if (!($document instanceof HtmlDocument)) {
+			return;
+		}
+
+		$body = $this->app->getBody();
+		$bodyEnd = strripos($body, '</body>');
+
+		if ($bodyEnd === false) {
+			return;
+		}
+
+		$body = substr_replace($body, $this->modalHtml, $bodyEnd, 0);
+
+		$this->app->setBody($body);
 	}
 }
